@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="hu">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Vasúti forgalomirányító szimulátor">
+  <title>Vasúti Forgalomirányító Szimulátor</title>
+  <link rel="stylesheet" href="./style.css">
+  <script type="module" src="./js/app.js"></script>
+</head>
+<body>
+  <main class="app-shell">
+    <header class="topbar">
+      <div class="brand"><span class="brand-mark">▰</span><div><h1>Vasúti Forgalomirányító</h1><p>Diszpécser szimulátor</p></div></div>
+      <div class="top-actions"><span class="pill">HTML5 Canvas · 60 FPS</span><button class="ghost-btn" id="help-top">Játékszabályok</button></div>
+    </header>
+
+    <section class="screen active" id="home-screen" aria-labelledby="home-title">
+      <div class="hero">
+        <div class="hero-copy"><span class="eyebrow">NAGY CSOMÓPONTI PÁLYAUDVAR</span><h2 id="home-title">Te irányítod a forgalmat.</h2><p>Állítsd a váltókat, kezeld a jelzőket, és juttasd célba a szerelvényeket balesetmentesen!</p></div>
+        <div class="hero-art" aria-hidden="true"><span class="art-track track-a"></span><span class="art-track track-b"></span><span class="art-track track-c"></span><span class="art-signal"></span><span class="art-train">▰</span></div>
+      </div>
+      <div class="home-grid">
+        <section class="panel setup-panel">
+          <div class="section-heading"><div><span class="eyebrow">ÚJ MENET</span><h3>Diszpécser szolgálatba állítása</h3></div><span class="step-number">01</span></div>
+          <label for="player-name">Játékos neve</label><input id="player-name" maxlength="24" autocomplete="nickname" placeholder="Add meg a neved…" required>
+          <label for="level-select">Nehézségi szint</label><select id="level-select"><option value="1">1. szint – Kitérő vágány jelzőkkel (Könnyű)</option><option value="2">2. szint – Rendező-pályaudvar (Közepes)</option><option value="3">3. szint – Fejpályaudvari csúcsforgalom (Nehéz)</option></select>
+          <button class="primary-btn wide" id="start-game">▶ Szimuláció indítása</button>
+          <button class="secondary-btn wide" id="load-home">▣ Mentett játék betöltése</button>
+          <p class="hint" id="home-message" aria-live="polite">A szolgálat megkezdéséhez add meg a neved.</p>
+        </section>
+        <section class="panel info-panel">
+          <div class="section-heading"><div><span class="eyebrow">GYORS ÁTTEKINTÉS</span><h3>Forgalomirányítás</h3></div><span class="step-number">02</span></div>
+          <div class="rule-row"><span class="rule-icon cyan">↗</span><div><b>Váltóállítás</b><p>Bal kattintás a váltó csomópontjára.</p></div></div>
+          <div class="rule-row"><span class="rule-icon red">●</span><div><b>Fényjelző</b><p>Bal kattintással válthatsz piros és zöld között.</p></div></div>
+          <div class="rule-row"><span class="rule-icon yellow">Ⅱ</span><div><b>Vészfék</b><p>Jobb kattintás a vonatra: fék be- vagy kikapcsolása.</p></div></div>
+          <div class="rule-row"><span class="rule-icon green">✓</span><div><b>Feladat</b><p>Minden szerelvényt a saját színű peronra kell vezetned.</p></div></div>
+          <div class="panel-actions"><button class="text-btn" id="open-rules">Teljes játékszabályzat <span>↗</span></button><button class="text-btn" id="open-leaderboard">Dicsőségkönyv <span>↗</span></button></div>
+        </section>
+      </div>
+      <footer class="home-footer">NAGY CSOMÓPONTI PÁLYAUDVAR <span>•</span> BIZTONSÁG MINDENEK FELETT</footer>
+    </section>
+
+    <section class="screen" id="game-screen" aria-label="Játékképernyő">
+      <div class="game-toolbar">
+        <div class="game-title"><span class="live-dot"></span><div><b id="hud-level">1. szint</b><small id="hud-player">Diszpécser</small></div></div>
+        <div class="hud-stat"><small>IDŐ</small><b id="hud-time">00:00</b></div>
+        <div class="hud-stat"><small>CÉLBA ÉRT</small><b id="hud-arrived">0 / 4</b></div>
+        <div class="hud-stat"><small>HIBA / KÉSÉS</small><b id="hud-errors">0 / 0</b></div>
+        <div class="toolbar-buttons"><button class="primary-btn" id="pause-game">Ⅱ Szünet</button><button class="danger-btn" id="reset-game">↻ Újrakezdés</button><button class="secondary-btn" id="save-game">▣ Mentés</button><button class="secondary-btn" id="menu-game">⌂ Menü</button></div>
+      </div>
+      <div class="canvas-wrap"><canvas id="rail-canvas" width="1100" height="610" aria-label="Vasúti pálya. Bal kattintás váltó vagy jelző, jobb kattintás vonat fékezése."></canvas><div class="canvas-overlay" id="canvas-overlay" hidden><div class="overlay-card"><span class="overlay-symbol">Ⅱ</span><h3>Szüneteltetve</h3><p>A forgalom és az időmérés megállt.</p><button class="primary-btn" id="resume-overlay">Folytatás</button></div></div></div>
+      <div class="game-bottom"><div class="legend"><span><i class="legend-dot red-dot"></i> Piros: tilos</span><span><i class="legend-dot green-dot"></i> Zöld: szabad</span><span><i class="legend-dot yellow-dot"></i> Váltó</span><span><i class="legend-dot blue-dot"></i> Kék peron</span><span><i class="legend-dot yellow-dot"></i> Ütközésveszély (75 px)</span><span><i class="legend-dot red-dot"></i> TILOS / kritikus veszély</span></div><p id="game-message" aria-live="polite">Irányítsd biztonságosan a szerelvényeket!</p></div>
+    </section>
+
+    <section class="screen" id="rules-screen">
+      <div class="panel content-panel"><div class="section-heading"><div><span class="eyebrow">DISZPÉCSERI KÉZIKÖNYV</span><h2>Játékszabályzat</h2></div><button class="icon-btn" data-back aria-label="Vissza">✕</button></div>
+        <h3>A játék célja</h3><p>A menetrendben érkező valamennyi vonatot a saját színével jelölt célállomásra kell eljuttatnod. A vonatok útvonalát a váltók határozzák meg, a jelzők pedig a továbbhaladást engedélyezik vagy tiltják.</p>
+        <h3>Irányítás</h3><ul><li><b>Bal egérgomb a váltón:</b> a kimeneti irány ciklikus módosítása.</li><li><b>Bal egérgomb a jelzőn:</b> piros (Megállj) és zöld (Szabad) állapot váltása.</li><li><b>Jobb egérgomb a vonaton:</b> kézi vészfék be- vagy kikapcsolása. A böngésző helyi menüje le van tiltva a pályán.</li></ul>
+        <h3>Biztonsági előírások</h3><ul><li>75 képponton belül sárga/piros figyelmeztetés jelenik meg; 22 képponton belül ütközés történik.</li><li>Piros jelző előtt a vonat megáll, vörös keretet és TILOS feliratot kap.</li><li>Bekötetlen váltó vagy vágányvég esetén a vonat kisiklik, ez hibának számít, de a többi vonat tovább közlekedik.</li><li>Ügyelj arra, hogy a szerelvények ne zárják el egymás útját.</li><li>Minden vonatnak a saját színű peronjára kell befutnia.</li></ul>
+        <h3>Nehézségi szintek</h3><ul><li><b>Könnyű:</b> egy belépési pont, két célállomás, négy vonat.</li><li><b>Közepes:</b> összetettebb vágánykapcsolatok, három célállomás, öt vonat.</li><li><b>Nehéz:</b> sűrű menetrend, négy célállomás, hat vonat.</li></ul>
+        <button class="primary-btn" data-back>Vissza a főmenübe</button>
+      </div>
+    </section>
+
+    <section class="screen" id="leaderboard-screen"><div class="panel content-panel"><div class="section-heading"><div><span class="eyebrow">HELYI RANGLISTA</span><h2>Diszpécserek dicsőségkönyve</h2></div><button class="icon-btn" data-back aria-label="Vissza">✕</button></div><label for="board-level">Pálya</label><select id="board-level"><option value="1">1. szint – Könnyű</option><option value="2">2. szint – Közepes</option><option value="3">3. szint – Nehéz</option></select><div id="leaderboard-content" class="leaderboard-content"></div></div></section>
+
+    <div class="modal-backdrop" id="result-modal" hidden><section class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modal-title"><div class="modal-symbol" id="modal-symbol">✓</div><span class="eyebrow" id="modal-eyebrow">MENET VÉGE</span><h2 id="modal-title">Sikeres teljesítés!</h2><p id="modal-copy"></p><div class="result-stats" id="modal-stats"></div><div class="modal-actions"><button class="primary-btn" id="modal-retry">Új menet</button><button class="secondary-btn" id="modal-home">Főmenü</button></div></section></div>
+  </main>
+</body>
+</html>

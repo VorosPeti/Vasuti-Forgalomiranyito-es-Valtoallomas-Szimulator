@@ -1,0 +1,1118 @@
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap');
+
+
+/* ========================================
+   1. ALAPBEÁLLÍTÁSOK ÉS SZÍNVÁLTOZÓK
+======================================== */
+
+:root {
+    color-scheme: dark;
+
+    --bg: #080d18;
+    --panel: #101a2b;
+    --panel2: #17243a;
+    --line: #27364d;
+    --muted: #8293ad;
+    --text: #eaf1fc;
+
+    --cyan: #36c9f4;
+    --blue: #3478ed;
+    --red: #f04452;
+    --green: #29c78a;
+    --yellow: #f7c948;
+
+    --shadow: 0 22px 70px #0007;
+}
+
+
+/* ========================================
+   2. ÁLTALÁNOS OLDALBEÁLLÍTÁSOK
+======================================== */
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 22px;
+    min-height: 100vh;
+
+    background:
+        radial-gradient(
+            ellipse at 50% -20%,
+            #1a3150 0,
+            transparent 48%
+        ),
+        var(--bg);
+
+    color: var(--text);
+    font-family: Manrope, system-ui, sans-serif;
+}
+
+button,
+input,
+select {
+    font: inherit;
+}
+
+button {
+    cursor: pointer;
+    transition: filter 0.15s, transform 0.15s;
+}
+
+button:hover {
+    filter: brightness(1.12);
+}
+
+button:active {
+    transform: translateY(1px);
+}
+
+h1,
+h2,
+h3,
+p {
+    margin-top: 0;
+}
+
+
+/* ========================================
+   3. FŐ ALKALMAZÁSKERET
+======================================== */
+
+.app-shell {
+    max-width: 1440px;
+    min-height: calc(100vh - 44px);
+    margin: auto;
+
+    border: 1px solid #293a54;
+    border-radius: 15px;
+
+    background: #0c1423;
+    overflow: hidden;
+
+    box-shadow: var(--shadow);
+}
+
+
+/* ========================================
+   4. FELSŐ NAVIGÁCIÓS SÁV
+======================================== */
+
+.topbar {
+    height: 78px;
+    padding: 0 30px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    border-bottom: 1px solid var(--line);
+    background: #101a2a;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+}
+
+.brand-mark {
+    font-size: 32px;
+    color: var(--cyan);
+    transform: scaleX(1.25);
+}
+
+.brand h1 {
+    margin: 0;
+
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: -0.4px;
+}
+
+.brand p {
+    margin: 3px 0 0;
+
+    font-size: 11px;
+    color: var(--muted);
+}
+
+.top-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.pill {
+    padding: 8px 12px;
+
+    border: 1px solid var(--line);
+    border-radius: 30px;
+
+    color: #9aabc3;
+    font: 10px 'DM Mono', monospace;
+}
+
+
+/* ========================================
+   5. GOMBOK
+======================================== */
+
+.ghost-btn,
+.secondary-btn,
+.primary-btn,
+.danger-btn,
+.icon-btn {
+    padding: 10px 15px;
+
+    border: 1px solid transparent;
+    border-radius: 8px;
+
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.ghost-btn {
+    background: transparent;
+    color: #b6c5dc;
+    border-color: var(--line);
+}
+
+.primary-btn {
+    background: var(--blue);
+    color: white;
+
+    box-shadow: 0 5px 16px #2769dc33;
+}
+
+.secondary-btn {
+    background: #26364e;
+    color: #e1eafa;
+    border-color: #3b4d68;
+}
+
+.danger-btn {
+    background: #9e2937;
+    color: white;
+}
+
+.wide {
+    width: 100%;
+    padding: 14px;
+    margin-top: 12px;
+}
+
+
+/* ========================================
+   6. KÉPERNYŐK KEZELÉSE
+======================================== */
+
+.screen {
+    display: none;
+
+    min-height: 650px;
+    padding: 28px 32px 22px;
+}
+
+.screen.active {
+    display: block;
+}
+
+
+/* ========================================
+   7. KEZDŐKÉPERNYŐ - HERO RÉSZ
+======================================== */
+
+.hero {
+    position: relative;
+
+    min-height: 205px;
+    padding: 32px 38px;
+
+    display: flex;
+    align-items: center;
+
+    overflow: hidden;
+
+    border: 1px solid #263a56;
+    border-radius: 13px;
+
+    background: linear-gradient(
+        105deg,
+        #142945 0%,
+        #14243b 52%,
+        #111c30 100%
+    );
+}
+
+.hero-copy {
+    max-width: 570px;
+    position: relative;
+    z-index: 1;
+}
+
+.eyebrow {
+    color: var(--cyan);
+
+    font: 500 10px 'DM Mono', monospace;
+    letter-spacing: 1.5px;
+}
+
+.hero h2 {
+    margin: 10px 0;
+
+    font-size: clamp(26px, 4vw, 42px);
+    letter-spacing: -1.8px;
+}
+
+.hero p {
+    max-width: 510px;
+    margin-bottom: 0;
+
+    color: #a7b8d0;
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+
+/* ========================================
+   8. HERO GRAFIKAI ELEMEK
+======================================== */
+
+.hero-art {
+    position: absolute;
+    top: 0;
+    right: 4%;
+
+    width: 39%;
+    height: 100%;
+
+    opacity: 0.8;
+}
+
+.art-track {
+    position: absolute;
+    left: 5%;
+
+    width: 100%;
+    height: 7px;
+
+    border: 2px solid #667b98;
+    border-left: 0;
+    border-right: 0;
+    border-radius: 10px;
+
+    transform-origin: left;
+}
+
+.track-a {
+    top: 46%;
+    transform: rotate(-20deg);
+}
+
+.track-b {
+    top: 46%;
+}
+
+.track-c {
+    top: 46%;
+    transform: rotate(20deg);
+}
+
+.art-signal {
+    position: absolute;
+    top: 25%;
+    right: 18%;
+
+    width: 9px;
+    height: 75px;
+
+    background: var(--red);
+    box-shadow: 0 0 20px #f0445266;
+}
+
+.art-train {
+    position: absolute;
+    top: 39%;
+    right: 37%;
+
+    font-size: 38px;
+    color: var(--cyan);
+
+    text-shadow: 0 0 20px #36c9f4;
+}
+
+
+/* ========================================
+   9. KEZDŐKÉPERNYŐ - PANELEK
+======================================== */
+
+.home-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+
+    margin-top: 18px;
+}
+
+.panel {
+    padding: 24px;
+
+    border: 1px solid var(--line);
+    border-radius: 12px;
+
+    background: linear-gradient(
+        145deg,
+        #121e30,
+        #101a2a
+    );
+}
+
+.section-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+
+    margin-bottom: 20px;
+}
+
+.section-heading h2,
+.section-heading h3 {
+    margin: 6px 0 0;
+
+    font-size: 19px;
+    letter-spacing: -0.5px;
+}
+
+.section-heading h2 {
+    font-size: 25px;
+}
+
+.step-number {
+    padding: 6px 8px;
+
+    border: 1px solid var(--line);
+    border-radius: 7px;
+
+    color: #637792;
+    font: 12px 'DM Mono', monospace;
+}
+
+
+/* ========================================
+   10. ŰRLAPOK ÉS BEVITELI MEZŐK
+======================================== */
+
+label {
+    display: block;
+
+    margin: 15px 0 7px;
+
+    color: #9eafc7;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+input,
+select {
+    width: 100%;
+    padding: 12px 13px;
+
+    border: 1px solid #354862;
+    border-radius: 7px;
+
+    outline: none;
+
+    background: #0c1524;
+    color: #eaf1fc;
+
+    font-size: 12px;
+}
+
+input:focus,
+select:focus {
+    border-color: var(--cyan);
+    box-shadow: 0 0 0 3px #36c9f41b;
+}
+
+.hint {
+    min-height: 15px;
+    margin: 13px 0 0;
+
+    color: #71839e;
+    font-size: 10px;
+}
+
+
+/* ========================================
+   11. JÁTÉKSZABÁLYOK ÉS IKONOK
+======================================== */
+
+.rule-row {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+
+    padding: 12px 0;
+
+    border-bottom: 1px solid #223149;
+}
+
+.rule-row:last-of-type {
+    border: 0;
+}
+
+.rule-icon {
+    width: 31px;
+    height: 31px;
+
+    display: grid;
+    place-items: center;
+
+    border-radius: 9px;
+
+    background: #1b2b40;
+    font-weight: 800;
+}
+
+.rule-icon.cyan {
+    color: var(--cyan);
+}
+
+.rule-icon.red {
+    color: var(--red);
+}
+
+.rule-icon.yellow {
+    color: var(--yellow);
+}
+
+.rule-icon.green {
+    color: var(--green);
+}
+
+.rule-row b {
+    font-size: 12px;
+}
+
+.rule-row p {
+    margin: 3px 0 0;
+
+    color: var(--muted);
+    font-size: 10px;
+}
+
+.panel-actions {
+    display: flex;
+    gap: 22px;
+
+    margin-top: 18px;
+}
+
+.text-btn {
+    padding: 0;
+
+    border: 0;
+    background: none;
+
+    color: var(--cyan);
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.text-btn span {
+    margin-left: 4px;
+}
+
+.home-footer {
+    padding: 25px 4px 4px;
+
+    color: #60738e;
+    text-align: center;
+
+    font: 9px 'DM Mono', monospace;
+    letter-spacing: 1.3px;
+}
+
+.home-footer span {
+    padding: 0 8px;
+    color: var(--cyan);
+}
+
+
+/* ========================================
+   12. JÁTÉKKÉPERNYŐ
+======================================== */
+
+#game-screen {
+    display: none;
+
+    min-height: 680px;
+    padding: 0;
+}
+
+#game-screen.active {
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* ========================================
+   13. JÁTÉK VEZÉRLŐSÁV
+======================================== */
+
+.game-toolbar {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+
+    padding: 13px 18px;
+
+    border-bottom: 1px solid var(--line);
+    background: #111c2d;
+}
+
+.game-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    min-width: 190px;
+    margin-right: auto;
+}
+
+.game-title b {
+    display: block;
+    font-size: 12px;
+}
+
+.game-title small {
+    display: block;
+
+    margin-top: 3px;
+
+    color: var(--muted);
+    font-size: 10px;
+}
+
+.live-dot {
+    width: 8px;
+    height: 8px;
+
+    border-radius: 50%;
+
+    background: var(--green);
+    box-shadow: 0 0 12px var(--green);
+}
+
+
+/* ========================================
+   14. JÁTÉK STATISZTIKÁK
+======================================== */
+
+.hud-stat {
+    min-width: 85px;
+    padding: 7px 11px;
+
+    border: 1px solid #2b3d56;
+    border-radius: 7px;
+
+    background: #18263a;
+}
+
+.hud-stat small {
+    display: block;
+
+    color: #8092ad;
+    font: 9px 'DM Mono', monospace;
+}
+
+.hud-stat b {
+    display: block;
+
+    margin-top: 3px;
+
+    font: 600 14px 'DM Mono', monospace;
+}
+
+.toolbar-buttons {
+    display: flex;
+    gap: 7px;
+}
+
+.toolbar-buttons button {
+    padding: 10px 12px;
+}
+
+
+/* ========================================
+   15. CANVAS - VASÚTI PÁLYA
+======================================== */
+
+.canvas-wrap {
+    position: relative;
+
+    flex: 1;
+    min-height: 400px;
+
+    margin: 15px 16px 0;
+
+    border: 1px solid #2a3a52;
+    border-radius: 9px;
+
+    overflow: hidden;
+    background: #080d16;
+}
+
+canvas {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+    min-height: 400px;
+
+    touch-action: manipulation;
+}
+
+
+/* ========================================
+   16. JÁTÉK KÖZBENI ÁTFEDŐ ABLAK
+======================================== */
+
+.canvas-overlay {
+    position: absolute;
+    inset: 0;
+
+    display: grid;
+    place-items: center;
+
+    background: #070c16c9;
+    backdrop-filter: blur(5px);
+}
+
+.canvas-overlay[hidden] {
+    display: none;
+}
+
+.overlay-card {
+    min-width: 260px;
+    padding: 30px;
+
+    border: 1px solid #3a4c66;
+    border-radius: 13px;
+
+    background: #17243a;
+    text-align: center;
+}
+
+.overlay-symbol {
+    font-size: 30px;
+    color: var(--yellow);
+}
+
+.overlay-card h3 {
+    margin: 8px 0;
+}
+
+.overlay-card p {
+    color: var(--muted);
+    font-size: 11px;
+}
+
+
+/* ========================================
+   17. JÁTÉK ALSÓ INFORMÁCIÓS SÁV
+======================================== */
+
+.game-bottom {
+    padding: 13px 22px 16px;
+
+    border-top: 1px solid var(--line);
+    background: #101a2a;
+}
+
+.legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.legend span {
+    color: #9aabc2;
+    font-size: 10px;
+}
+
+.legend-dot {
+    display: inline-block;
+
+    width: 7px;
+    height: 7px;
+
+    margin-right: 5px;
+
+    border-radius: 50%;
+}
+
+.red-dot {
+    background: var(--red);
+}
+
+.green-dot {
+    background: var(--green);
+}
+
+.yellow-dot {
+    background: var(--yellow);
+}
+
+.blue-dot {
+    background: var(--blue);
+}
+
+#game-message {
+    margin: 10px 0 0;
+
+    color: #8093ae;
+    font-size: 10px;
+}
+
+
+/* ========================================
+   18. SZABÁLYZAT ÉS TARTALMI PANELEK
+======================================== */
+
+.content-panel {
+    max-width: 850px;
+    margin: 0 auto;
+    padding: 30px;
+}
+
+.content-panel h3 {
+    margin: 24px 0 8px;
+
+    color: #dce8f9;
+    font-size: 14px;
+}
+
+.content-panel p,
+.content-panel li {
+    color: #9eafc7;
+
+    font-size: 12px;
+    line-height: 1.8;
+}
+
+.content-panel ul {
+    padding-left: 20px;
+}
+
+
+/* ========================================
+   19. IKON GOMBOK
+======================================== */
+
+.icon-btn {
+    border-color: #3a4b63;
+
+    background: #1d2b40;
+    color: #bdcce0;
+
+    font-size: 15px;
+}
+
+
+/* ========================================
+   20. RANGLISTA
+======================================== */
+
+.leaderboard-content {
+    margin-top: 20px;
+}
+
+.leaderboard-content table {
+    width: 100%;
+    border-collapse: collapse;
+
+    font-size: 11px;
+}
+
+.leaderboard-content th,
+.leaderboard-content td {
+    padding: 12px 9px;
+
+    border-bottom: 1px solid var(--line);
+
+    text-align: left;
+}
+
+.leaderboard-content th {
+    color: #7f91aa;
+    font: 10px 'DM Mono', monospace;
+}
+
+.empty-board {
+    padding: 30px;
+
+    border: 1px dashed #34465f;
+    border-radius: 8px;
+
+    color: var(--muted);
+    text-align: center;
+    font-size: 12px;
+}
+
+
+/* ========================================
+   21. MODÁLIS ABLAKOK
+======================================== */
+
+.modal-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 10;
+
+    display: grid;
+    place-items: center;
+
+    padding: 20px;
+
+    background: #050914c9;
+    backdrop-filter: blur(7px);
+}
+
+.modal-backdrop[hidden] {
+    display: none;
+}
+
+.modal-card {
+    width: min(460px, 100%);
+    padding: 30px;
+
+    border: 1px solid #3b506d;
+    border-radius: 15px;
+
+    background: #142137;
+
+    text-align: center;
+    box-shadow: var(--shadow);
+}
+
+.modal-symbol {
+    width: 55px;
+    height: 55px;
+
+    display: grid;
+    place-items: center;
+
+    margin: 0 auto 16px;
+
+    border-radius: 50%;
+
+    background: #1c453e;
+    color: var(--green);
+
+    font-size: 26px;
+}
+
+.modal-card h2 {
+    margin: 8px 0;
+    font-size: 23px;
+}
+
+.modal-card > p {
+    color: #a6b7ce;
+
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+
+/* ========================================
+   22. EREDMÉNY STATISZTIKÁK
+======================================== */
+
+.result-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+
+    margin: 20px 0;
+}
+
+.result-stats div {
+    padding: 12px 6px;
+
+    border: 1px solid #2b3e59;
+    border-radius: 8px;
+
+    background: #0e192a;
+}
+
+.result-stats b {
+    display: block;
+
+    font: 600 16px 'DM Mono', monospace;
+}
+
+.result-stats small {
+    color: var(--muted);
+    font-size: 9px;
+}
+
+.modal-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.modal-actions button {
+    flex: 1;
+}
+
+
+/* ========================================
+   23. RESZPONZÍV MEGJELENÍTÉS
+   850 PIXEL ALATT
+======================================== */
+
+@media (max-width: 850px) {
+
+    body {
+        padding: 0;
+    }
+
+    .app-shell {
+        min-height: 100vh;
+        border-radius: 0;
+    }
+
+    .topbar {
+        padding: 0 16px;
+    }
+
+    .pill {
+        display: none;
+    }
+
+    .screen {
+        padding: 18px 14px;
+    }
+
+    .home-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .hero {
+        padding: 25px 22px;
+    }
+
+    .hero-art {
+        width: 55%;
+        opacity: 0.35;
+    }
+
+    .game-toolbar {
+        gap: 7px;
+        padding: 10px;
+    }
+
+    .game-title {
+        min-width: 140px;
+    }
+
+    .hud-stat {
+        min-width: 70px;
+        padding: 6px;
+    }
+
+    .toolbar-buttons {
+        width: 100%;
+        order: 2;
+    }
+
+    .toolbar-buttons button {
+        flex: 1;
+
+        padding: 9px 5px;
+
+        font-size: 10px;
+    }
+
+    .canvas-wrap {
+        margin: 10px 8px 0;
+    }
+
+    .game-bottom {
+        padding: 10px;
+    }
+
+    .legend {
+        gap: 10px;
+    }
+
+    .content-panel {
+        padding: 20px;
+    }
+}
+
+
+/* ========================================
+   24. RESZPONZÍV MEGJELENÍTÉS
+   480 PIXEL ALATT
+======================================== */
+
+@media (max-width: 480px) {
+
+    .brand h1 {
+        font-size: 14px;
+    }
+
+    .brand p {
+        font-size: 9px;
+    }
+
+    .topbar {
+        height: 65px;
+    }
+
+    .ghost-btn {
+        padding: 8px;
+        font-size: 10px;
+    }
+
+    .hero h2 {
+        font-size: 28px;
+    }
+
+    .hero p {
+        font-size: 11px;
+    }
+
+    .panel {
+        padding: 18px;
+    }
+
+    .game-title {
+        width: 100%;
+        margin: 0;
+    }
+
+    .hud-stat {
+        flex: 1;
+    }
+
+    .canvas-wrap {
+        min-height: 360px;
+    }
+
+    canvas {
+        min-height: 360px;
+    }
+
+    .result-stats {
+        gap: 5px;
+    }
+}
