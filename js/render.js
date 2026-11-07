@@ -203,6 +203,28 @@ export function renderGame(game) {
       ctx.fillText('Belépő →', node.x - 70, node.y + 4);
     });
 
+  // Zsákvágány vége: a 4. pályán kisiklásveszélyes, állomás nélküli sínvég.
+  game.nodes
+    .filter(node => node.type === 'dead-end')
+    .forEach(node => {
+      ctx.save();
+      ctx.translate(node.x, node.y);
+      ctx.strokeStyle = colors.red;
+      ctx.lineWidth = 5;
+      ctx.lineCap = 'round';
+      ctx.beginPath();
+      ctx.moveTo(-12, -12);
+      ctx.lineTo(12, 12);
+      ctx.moveTo(-12, 12);
+      ctx.lineTo(12, -12);
+      ctx.stroke();
+      ctx.fillStyle = colors.red;
+      ctx.font = 'bold 12px Manrope';
+      ctx.textAlign = 'center';
+      ctx.fillText('ZSÁKVÁGÁNY', -2, -22);
+      ctx.restore();
+    });
+
   // Váltók kirajzolása
   game.switches.forEach(sw => {
     const node = game.nodes.find(n => n.id === sw.id);

@@ -15,11 +15,45 @@ let lastFrame = 0;
 let animationId = 0;
 let lastUiTime = 0;
 let lastScheduleIndex = 0;
+let rulesReturnScreen = '#home-screen';
+let rulesResumeGame = false;
 
 const STORAGE_SAVE = 'rail-dispatch-save-v1';
 const STORAGE_BOARD = 'rail-dispatch-board-v1';
 
 // Képernyők és üzenetek kezelése
+function openRules() {
+  const activeScreen = screens.find(selector => $(selector).classList.contains('active'));
+  rulesReturnScreen = activeScreen || '#home-screen';
+  rulesResumeGame = rulesReturnScreen === '#game-screen' && Boolean(game) && !game.paused && !game.over;
+
+  if (rulesResumeGame) {
+    game.paused = true;
+    cancelAnimationFrame(animationId);
+    $('#canvas-overlay').hidden = false;
+    $('#pause-game').textContent = '▶ Folytatás';
+  }
+
+  showScreen('#rules-screen');
+}
+
+function closeRules() {
+  showScreen(rulesReturnScreen);
+
+  if (rulesReturnScreen === '#game-screen' && game) {
+    renderGame(game);
+    if (rulesResumeGame && !game.over) {
+      game.paused = false;
+      $('#canvas-overlay').hidden = true;
+      $('#pause-game').textContent = 'Ⅱ Szünet';
+      lastFrame = performance.now();
+      animationId = requestAnimationFrame(loop);
+    }
+  }
+
+  rulesResumeGame = false;
+}
+
 function showScreen(selector) {
   screens.forEach(item => {
     $(item).classList.toggle('active', item === selector);
@@ -114,15 +148,20 @@ function showModal(success, title, copy) {
 function endGame(success, reason) {
   if (game.over) return;
 
+  const completed =
+    lastScheduleIndex === game.schedules.length &&
+    game.trains.length === 0 &&
+    !game.crash;
+
   game.over = true;
   game.paused = true;
-  game.result = { success, reason };
+  game.result = { success, completed, reason };
 
   cancelAnimationFrame(animationId);
 
-  if (success) {
-    saveLeaderboard();
-  }
+  // A teljes menetrend végigfutott: hibaponttal is kerüljön ranglistára.
+  // Csak a félbeszakadt vagy ütközéssel lezárult menet marad ki.
+  if (completed) saveLeaderboard();
 
   if (success) {
     showModal(
@@ -158,7 +197,7 @@ function saveLeaderboard() {
 
     list.push({
       player: game.player,
-      success: true,
+      completed: true,
       time: Math.floor(game.elapsed),
       errors: game.errors,
       delays: Math.floor(game.delays || 0),
@@ -647,14 +686,12 @@ function loadGame() {
 
     game = restoreSnapshot(JSON.parse(raw));
 
-    lastScheduleIndex = game.spawned;
-
-    while (
-      lastScheduleIndex < game.schedules.length &&
-      game.schedules[lastScheduleIndex].at <= game.elapsed
-    ) {
-      lastScheduleIndex += 1;
-    }
+    // A mentésben tárolt következő menetrendi indexet használjuk.
+    // Nem léptetjük át az időközben esedékessé vált, de még el nem indított vonatokat.
+    lastScheduleIndex = Math.max(
+      0,
+      Math.min(game.schedules.length, Number(game.spawned) || 0)
+    );
 
     game.paused = false;
     game.over = false;
@@ -665,6 +702,7 @@ function loadGame() {
     $('#pause-game').textContent = 'Ⅱ Szünet';
 
     lastFrame = performance.now();
+    lastUiTime = game.elapsed;
 
     renderGame(game);
     animationId = requestAnimationFrame(loop);
@@ -692,9 +730,9 @@ function renderLeaderboard() {
 
   const list = Array.isArray(all[level])
     ? [...all[level]].sort((a, b) =>
-        (Number(a.time) || 0) - (Number(b.time) || 0) ||
+        (Number(a.errors) || 0) - (Number(b.errors) || 0) ||
         (Number(a.delays) || 0) - (Number(b.delays) || 0) ||
-        (Number(a.errors) || 0) - (Number(b.errors) || 0)
+        (Number(a.time) || 0) - (Number(b.time) || 0)
       )
     : [];
 
@@ -782,13 +820,9 @@ $('#menu-game').addEventListener('click', () => {
 $('#rail-canvas').addEventListener('click', onCanvasClick);
 $('#rail-canvas').addEventListener('contextmenu', onCanvasContext);
 
-$('#open-rules').addEventListener('click', () => {
-  showScreen('#rules-screen');
-});
+$('#open-rules').addEventListener('click', openRules);
 
-$('#help-top').addEventListener('click', () => {
-  showScreen('#rules-screen');
-});
+$('#help-top').addEventListener('click', openRules);
 
 $('#open-leaderboard').addEventListener('click', () => {
   renderLeaderboard();
@@ -797,10 +831,12 @@ $('#open-leaderboard').addEventListener('click', () => {
 
 $('#board-level').addEventListener('change', renderLeaderboard);
 
-document.querySelectorAll('[data-back]').forEach(button => {
-  button.addEventListener('click', () => {
-    showScreen('#home-screen');
-  });
+$('#rules-screen').querySelectorAll('[data-back]').forEach(button => {
+  button.addEventListener('click', closeRules);
+});
+
+$('#leaderboard-screen').querySelectorAll('[data-back]').forEach(button => {
+  button.addEventListener('click', () => showScreen('#home-screen'));
 });
 
 $('#modal-retry').addEventListener('click', () => {
