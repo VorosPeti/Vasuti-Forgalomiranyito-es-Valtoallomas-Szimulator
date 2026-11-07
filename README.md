@@ -48,11 +48,11 @@ Tudomásul veszem, hogy a személyes szóbeli kódvédésen a kód minden egyes 
 - [ x ] Játék végi győzelmi / vereségi értesítés egyedi modális ablakban (alert nélkül)
 
 ### Kódminőség & Architektúra
-- [ ] Szigorú "1 HTML + 1 CSS + 3 JS" moduláris struktúra (state, render, app)
-- [ ] Nincs var kulcsszó a teljes forráskódban
-- [ ] Nincsenek getElementById, DOMContentLoaded, alert() hívások
-- [ ] Tiszta Vanilla JS (nincs külső könyvtár vagy framework)
-- [ ] Játékállás mentése és visszatöltése localStorage segítségével
-- [ ] A 3-5 perces narrált bemutató videó feltöltve és megosztható OneDrive linken
-- [ ] Online deployment, a program elérhető valamilyen online platformon, ennek elérhetőségét feltüntettem itt a README.md file elején
+- [ x ] Szigorú "1 HTML + 1 CSS + 3 JS" moduláris struktúra (state, render, app)
+- [ x ] Nincs var kulcsszó a teljes forráskódban
+- [ x ] Nincsenek getElementById, DOMContentLoaded, alert() hívások
+- [ x ] Tiszta Vanilla JS (nincs külső könyvtár vagy framework)
+- [ x ] Játékállás mentése és visszatöltése localStorage segítségével
+- [ x ] A 3-5 perces narrált bemutató videó feltöltve és megosztható OneDrive linken
+- [ x ] Online deployment, a program elérhető valamilyen online platformon, ennek elérhetőségét feltüntettem itt a README.md file elején
 
