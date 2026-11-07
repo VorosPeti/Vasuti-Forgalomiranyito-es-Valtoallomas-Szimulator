@@ -119,7 +119,10 @@ function endGame(success, reason) {
   game.result = { success, reason };
 
   cancelAnimationFrame(animationId);
-  saveLeaderboard();
+
+  if (success) {
+    saveLeaderboard();
+  }
 
   if (success) {
     showModal(
@@ -155,6 +158,7 @@ function saveLeaderboard() {
 
     list.push({
       player: game.player,
+      success: true,
       time: Math.floor(game.elapsed),
       errors: game.errors,
       delays: Math.floor(game.delays || 0),
@@ -162,9 +166,9 @@ function saveLeaderboard() {
     });
 
     list.sort((a, b) =>
-      (Number(a.time) || 0) - (Number(b.time) || 0) ||
+      (Number(a.errors) || 0) - (Number(b.errors) || 0) ||
       (Number(a.delays) || 0) - (Number(b.delays) || 0) ||
-      (Number(a.errors) || 0) - (Number(b.errors) || 0)
+      (Number(a.time) || 0) - (Number(b.time) || 0)
     );
 
     all[game.level] = list.slice(0, 20);
@@ -771,8 +775,6 @@ $('#reset-game').addEventListener('click', resetGame);
 $('#save-game').addEventListener('click', saveGame);
 
 $('#menu-game').addEventListener('click', () => {
-  if (game && !game.over) saveGame();
-
   showScreen('#home-screen');
   cancelAnimationFrame(animationId);
 });

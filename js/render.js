@@ -402,7 +402,9 @@ export function renderGame(game) {
         ? 'Könnyű'
         : game.level === 2
           ? 'Közepes'
-          : 'Nehéz'
+          : game.level === 3
+            ? 'Nehéz'
+            : 'Nehéz · 8 vonat'
     }
   `;
 

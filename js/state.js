@@ -19,6 +19,13 @@ export const LEVELS = {
     trains: 6,
     interval: 3.1,
     speed: 99
+  },
+  4: {
+    name: 'Kiterjedt csomópont – kisiklásveszéllyel',
+    difficulty: 'Nehéz',
+    trains: 8,
+    interval: 2.8,
+    speed: 104
   }
 };
 
@@ -369,6 +376,23 @@ function baseNetwork(level) {
       { id: 'p3', name: '3. Peron', color: '#29c78a' },
       { id: 'p4', name: '4. Peron', color: '#f0a43a' }
     );
+
+    if (level === 4) {
+      addNode('deadEnd', 1010, 545, 'dead-end');
+      addEdge(
+        'dDead',
+        [
+          { x: 825, y: 305 },
+          { x: 930, y: 445 },
+          { x: 1010, y: 545 }
+        ],
+        'swD',
+        'deadEnd'
+      );
+
+      const swD = switches.find(item => item.id === 'swD');
+      swD.options.push('dDead');
+    }
   }
 
   return {
@@ -452,7 +476,8 @@ export function createGame(level, player) {
             route: ['aIn', 'aJoin', 'cBlue']
           }
         ]
-      : [
+      : level === 3
+        ? [
           {
             at: 0,
             entry: 'entryA',
@@ -495,6 +520,16 @@ export function createGame(level, player) {
             target: 'p1',
             route: ['bIn', 'bJoin', 'cToD', 'dP1']
           }
+        ]
+        : [
+          { at: 0, entry: 'entryA', color: '#f04452', target: 'p1', route: ['aIn', 'aP1'] },
+          { at: 2.8, entry: 'entryB', color: '#f0a43a', target: 'p4', route: ['bIn', 'bP4'] },
+          { at: 5.6, entry: 'entryA', color: '#3478ed', target: 'p2', route: ['aIn', 'aJoin', 'cP2'] },
+          { at: 8.4, entry: 'entryB', color: '#29c78a', target: 'p3', route: ['bIn', 'bJoin', 'cToD', 'dP3'] },
+          { at: 11.2, entry: 'entryA', color: '#3478ed', target: 'p2', route: ['aIn', 'aJoin', 'cToD', 'dP2'] },
+          { at: 14, entry: 'entryB', color: '#f04452', target: 'p1', route: ['bIn', 'bJoin', 'cToD', 'dP1'] },
+          { at: 16.8, entry: 'entryA', color: '#29c78a', target: 'p3', route: ['aIn', 'aJoin', 'cToD', 'dP3'] },
+          { at: 19.6, entry: 'entryB', color: '#3478ed', target: 'p2', route: ['bIn', 'bJoin', 'cToD', 'dP2'] }
         ];
 
   return {
